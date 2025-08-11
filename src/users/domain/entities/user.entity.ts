@@ -1,56 +1,44 @@
 import {
   Entity,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn
 } from 'typeorm';
-import { Commerce } from './commerce.entity';
+import { Commerce } from '../../../commerce/domain/entities/commerce.entity';
 
 @Entity('user')
 export class User {
-  @PrimaryColumn({ type: 'varchar', length: 100 })
+  @PrimaryGeneratedColumn('uuid')
   user_id: string;
 
-  @Column({ name: 'commerce_id', nullable: true })
+  @Column({ type: 'uuid', nullable: true })
   commerce_id: string;
 
-  @ManyToOne(() => Commerce, { nullable: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => Commerce, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'commerce_id' })
   commerce: Commerce;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   name: string;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', length: 100, nullable: true })
   email: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   password: string;
 
-  @Column({ type: 'inet', nullable: true })
-  ip: string;
-
   @Column({ type: 'varchar', length: 50, nullable: true })
   role: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
-  permissions: string;
-
-  @Column({ type: 'varchar', length: 100, nullable: true })
-  position: string;
-
-  @Column({ type: 'boolean', nullable: true })
+  @Column({ type: 'boolean', default: true })
   is_active: boolean;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn()
   updated_at: Date;
-
-  @Column({ type: 'timestamp', nullable: true })
-  deleted_at: Date;
 }

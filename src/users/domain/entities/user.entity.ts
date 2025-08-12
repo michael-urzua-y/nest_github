@@ -1,12 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  JoinColumn
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Commerce } from '../../../commerce/domain/entities/commerce.entity';
 
 @Entity('user')
@@ -14,31 +6,40 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   user_id: string;
 
-  @Column({ type: 'uuid', nullable: true })
-  commerce_id: string;
-
-  @ManyToOne(() => Commerce, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Commerce)
   @JoinColumn({ name: 'commerce_id' })
   commerce: Commerce;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column()
   name: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column()
   email: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column()
   password: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: true })
+  @Column()
+  ip: string;
+
+  @Column()
   role: string;
 
-  @Column({ type: 'boolean', default: true })
+  @Column()
+  permissions: string;
+
+  @Column()
+  position: string;
+
+  @Column()
   is_active: boolean;
 
-  @CreateDateColumn()
+  @Column()
   created_at: Date;
 
-  @UpdateDateColumn()
+  @Column()
   updated_at: Date;
+
+  @Column({ nullable: true })
+  deleted_at: Date;
 }

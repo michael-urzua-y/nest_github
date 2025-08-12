@@ -7,10 +7,7 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class UserRepository implements IUserRepository {
   constructor(private readonly tenantService: TenantConnectionService) {}
-  // Inyecta el servicio que proporciona la conexión a la base de datos según el esquema actual.
 
-
-// Obtiene el repositorio de la entidad User para el esquema actual
   private async getRepo(): Promise<Repository<User>> {
     const dataSource = await this.tenantService.getDataSource();
     return dataSource.getRepository(User);

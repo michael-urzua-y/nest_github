@@ -1,21 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('commerce')
-export class Commerce {
+@Entity('status')
+export class Status {
   @PrimaryGeneratedColumn('uuid')
-  commerce_id: string;
+  statu_id: string;
 
   @Column()
-  name: string;
-
-  @Column()
-  document: string;
-
-  @Column()
-  document_format: string;
-
-  @Column()
-  iso_code: string;
+  statu: string;
 
   @Column()
   created_at: Date;

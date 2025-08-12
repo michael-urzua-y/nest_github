@@ -8,8 +8,5 @@ export class CreateCommerceDto {
   document: string;
 
   @IsString()
-  document_format: string;
-
-  @IsString()
   iso_code: string;
 }

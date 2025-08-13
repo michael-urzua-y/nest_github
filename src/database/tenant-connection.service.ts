@@ -11,6 +11,7 @@ export class TenantConnectionService {
 
   async getDataSource(): Promise<DataSource> {
 
+    // const schema = this.schemaContext.getSchemaName();
     const schema = this.schemaContext.getSchemaName();
 
     if (dataSourceCache.has(schema)) {
@@ -22,7 +23,7 @@ export class TenantConnectionService {
       throw new NotFoundException(`Schema '${schema}' does not exist`);
     }
 
-    const dataSource = new DataSource(getBaseDataSourceConfig(schema));
+    const dataSource = new DataSource(getBaseDataSourceConfig('betano_cl'));
 
     await dataSource.initialize();
     dataSourceCache.set(schema, dataSource);
@@ -53,6 +54,7 @@ export class TenantConnectionService {
 
 function getBaseDataSourceConfig(schema: string): DataSourceOptions {
   return {
+    
     type: 'postgres',
     host: process.env.DB_HOST,
     port: +process.env.DB_PORT!,

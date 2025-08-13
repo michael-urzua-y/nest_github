@@ -15,6 +15,7 @@ import { SchemaMiddleware } from './schema/common/middleware/scheme.middleware';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

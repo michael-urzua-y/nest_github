@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { UsersModule } from './users/users.module';
+// import { UsersModule } from './payout/users.module';
 import { ProductsModule } from './products/products.module';
 // import { PaymentsModule } from './payments/payments.module';
 import { CommerceModule } from './commerce/commerce.module';
@@ -33,7 +33,7 @@ import { SchemaMiddleware } from './schema/common/middleware/scheme.middleware';
         autoLoadEntities: true,
       }),
     }),
-    UsersModule,
+    // UsersModule,
     ProductsModule,
     // PaymentsModule,
     CommerceModule,

@@ -15,4 +15,11 @@ export class ClientController {
   findOne(@Param('id') id: string): Promise<Client | null>  {
     return this.clientService.getClientById(id);
   }
+
+  @Get(':id/country')
+  async getClientCountry(@Param('id') id: string) {
+  console.log('Obteniendo país del cliente:', id);
+  return this.clientService.getClientCountry(id);
+}
+
 }

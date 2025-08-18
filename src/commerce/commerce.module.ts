@@ -16,16 +16,16 @@ import { ClientService } from './application/client.service';
 // Repositorios y adapters
 import { CommerceRepository } from './persistance/commerce.repository';
 import { ClientRepository } from './persistance/client.repository';
+import { CountryAdapter } from './infrastructure/adapters/country.adapter'; 
 
-// Módulos externos
 import { DatabaseModule } from 'src/database/app.module';
-import { ProductsModule } from '../products/products.module'; // contiene CountryPort
+import { ProductsModule } from '../products/products.module'; 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Commerce, Client]),
     DatabaseModule,
-    ProductsModule, // para poder inyectar ICountryPort en ClientService o adapters
+    ProductsModule,
   ],
   controllers: [CommerceController, ClientController],
   providers: [
@@ -34,7 +34,8 @@ import { ProductsModule } from '../products/products.module'; // contiene Countr
     CommerceService,
 
     // Client
-    { provide: 'IClientRepository', useClass: ClientRepository }, // persistence
+    { provide: 'IClientRepository', useClass: ClientRepository },
+    { provide: 'ICountryPort', useClass: CountryAdapter }, 
     ClientService,
   ],
   exports: [

@@ -13,8 +13,9 @@ import { CountryController } from './presentation/country.controller';
   providers: [
     { provide: 'ICountryRepository', useClass: CountryRepository },
     { provide: 'ICountryPort', useClass: CountryAdapter },
+    { provide: 'ICountryService', useClass: CountryService }, 
     CountryService,
   ],
-  exports: [CountryService, 'ICountryPort'],
+  exports: ['ICountryService', 'ICountryPort'], 
 })
 export class ProductsModule {}

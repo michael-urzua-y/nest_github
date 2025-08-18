@@ -13,10 +13,20 @@ export class ClientRepository implements IClientRepository {
       return dataSource.getRepository(Client);
     }
   
+    // async getAll(): Promise<Client[]> {
+    //   const repo = await this.getRepo();
+    //   return repo.find();
+    // }
+
+    
     async getAll(): Promise<Client[]> {
       const repo = await this.getRepo();
-      return repo.find();
+      return repo.find({
+        relations: ['commerce', 'country', 'documentType'],
+      });
     }
+
+
     async getById(id: string): Promise<Client | null> {
         const repo = await this.getRepo();
         return repo.findOne({ where: { client_id: id } });

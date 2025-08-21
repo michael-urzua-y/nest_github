@@ -7,9 +7,12 @@ import { AppService } from './app.service';
 
 // import { UsersModule } from './payout/users.module';
 import { ProductsModule } from './products/products.module';
+import { PayinModule } from './payin/payin.module';
 // import { PaymentsModule } from './payments/payments.module';
 import { CommerceModule } from './commerce/commerce.module';
 import { SchemaMiddleware } from './schema/common/middleware/scheme.middleware';
+import { SeedModule } from './seed/seed.module';
+import { MigrationModule } from './migrations/migration.module';
 
 @Module({
   imports: [
@@ -18,7 +21,7 @@ import { SchemaMiddleware } from './schema/common/middleware/scheme.middleware';
       envFilePath: '.env',
     }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [ConfigModule, SeedModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         type: 'postgres',
@@ -29,26 +32,25 @@ import { SchemaMiddleware } from './schema/common/middleware/scheme.middleware';
         database: config.get('DB_NAME'),
         schema: config.get('DB_SCHEMA'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, // true solo en desarrollo
+        synchronize: false, 
         autoLoadEntities: true,
       }),
     }),
     // UsersModule,
     ProductsModule,
-    // PaymentsModule,
+    PayinModule,
     CommerceModule,
+    MigrationModule,
+    
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
-
   //Configuracion del middleware global
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(SchemaMiddleware)
       .forRoutes('*');
   }
-
-
 }

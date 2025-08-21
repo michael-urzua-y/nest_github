@@ -1,34 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { TenantConnectionService } from 'src/database/tenant-connection.service';
-import { Repository } from 'typeorm';
-import { Client } from '../domain/entities/client.entity';
+import { Client } from '../domain/entities/client';
 import { IClientRepository } from './client.repository.interface';
+import { toDomain, toPersistence } from '../application/mappers/client.mapper';
+import { ClientOrmEntity } from '../domain/entities/client.entity';
 
 @Injectable()
 export class ClientRepository implements IClientRepository {
   constructor(private readonly tenantService: TenantConnectionService) {}
-  
-    private async getRepo(): Promise<Repository<Client>> {
-      const dataSource = await this.tenantService.getDataSource();
-      return dataSource.getRepository(Client);
-    }
-  
-    // async getAll(): Promise<Client[]> {
-    //   const repo = await this.getRepo();
-    //   return repo.find();
-    // }
 
-    
-    async getAll(): Promise<Client[]> {
-      const repo = await this.getRepo();
-      return repo.find({
-        relations: ['commerce', 'country', 'documentType'],
-      });
-    }
+  // Método privado para obtener el repositorio de TypeORM usando el esquema dinámico.
+  // Esto permite trabajar con múltiples esquemas en PostgreSQL.
+  private async getRepo() {
+    const dataSource = await this.tenantService.getDataSource();
+    return dataSource.getRepository(ClientOrmEntity);
+  }
 
+  async getAll(): Promise<Client[]> {
+    const repo = await this.getRepo();
+    const entities = await repo.find({
+      relations: ['commerce', 'country', 'documentType'],
+    });
+    return entities.map(toDomain);
+  }
 
-    async getById(id: string): Promise<Client | null> {
-        const repo = await this.getRepo();
-        return repo.findOne({ where: { client_id: id } });
-      }
+  async getById(id: string): Promise<Client | null> {
+    const repo = await this.getRepo();
+    const entity = await repo.findOne({
+      where: { client_id: id },
+      relations: ['commerce', 'country', 'documentType'],
+    });
+    return entity ? toDomain(entity) : null;
+  }
+
+  async save(client: Client): Promise<void> {
+    const repo = await this.getRepo();
+    const entity = toPersistence(client);
+    await repo.save(entity);
+  }
+
+  async update(id: string, client: Client): Promise<void> {
+    const repo = await this.getRepo();
+    const entity = toPersistence(client);
+    await repo.update({ client_id: id }, entity);
+  }
+
+  async delete(id: string): Promise<void> {
+    const repo = await this.getRepo();
+    await repo.delete({ client_id: id });
+  }
 }

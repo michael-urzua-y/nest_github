@@ -4,7 +4,7 @@ import { DocumentType } from './document-type.entity';
 import { Country } from '../../../products/domain/entities/countrys.entity';
 
 @Entity('client')
-export class Client {
+export class ClientOrmEntity {
   @PrimaryGeneratedColumn('uuid')
   client_id: string;
 
@@ -32,18 +32,18 @@ export class Client {
   @Column({ type: 'boolean', nullable: true })
   blocked: number;
 
-  @Column({ nullable: true })
-  blocked_restriction: Date;
+  @Column({ type: 'timestamp', nullable: true })
+  blocked_restriction: Date | null;
 
   @Column({ type: 'text', nullable: true })
-  note: string;
+  note: string | null;
 
-  @Column()
+  @Column({ type: 'timestamp' })
   created_at: Date;
 
-  @Column()
+  @Column({ type: 'timestamp' })
   updated_at: Date;
 
-  @Column({ nullable: true })
-  deleted_at: Date;
+  @Column({ type: 'timestamp', nullable: true })
+  deleted_at: Date | null;
 }

@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommerceRepository implements ICommerceRepository {
-  constructor(private readonly tenantService: TenantConnectionService) {}
+  constructor(private readonly tenantService: TenantConnectionService) { }
 
   private async getRepo(): Promise<Repository<Commerce>> {
     const dataSource = await this.tenantService.getDataSource();
@@ -18,6 +18,12 @@ export class CommerceRepository implements ICommerceRepository {
     const repo = await this.getRepo();
     return repo.find();
   }
+
+  async findByRut(id: string): Promise<Commerce | null> {
+    const repo = await this.getRepo();
+    return repo.findOne({ where: { commerce_id: id } });
+  }
+
 
   async findById(id: string): Promise<Commerce | null> {
     const repo = await this.getRepo();

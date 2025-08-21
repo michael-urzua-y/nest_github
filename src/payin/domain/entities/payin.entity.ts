@@ -10,7 +10,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { Client } from '../../../commerce/domain/entities/client.entity';
+import { ClientOrmEntity } from '../../../commerce/domain/entities/client.entity';
 import { Type } from '../../../products/domain/entities/types.entity';
 import { Method } from '../../../products/domain/entities/methods.entity';
 import { Status } from '../../../products/domain/entities/status.entity';
@@ -23,9 +23,9 @@ export class Payin {
   @PrimaryGeneratedColumn('uuid')
   transaction_id: string;
 
-  @ManyToOne(() => Client)
+  @ManyToOne(() => ClientOrmEntity)
   @JoinColumn({ name: 'client_id' })
-  client: Client;
+  client: ClientOrmEntity;
 
   @ManyToOne(() => Type)
   @JoinColumn({ name: 'type_id' })

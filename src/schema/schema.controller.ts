@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CreateSchemaDto } from './dto/create-schema.dto';
-import { UpdateSchemaDto } from './dto/update-schema.dto';
+
 import { SchemaContextService } from './schema.service';
 
 @Controller('schema')

@@ -38,4 +38,11 @@ export class ClientService {
     console.log('[Service] Resultado desde facade:', result);
     return result;
   }
+
+
+  async getUserNameByEmail(email: string): Promise<string | null> {
+    return this.cliRepo.findUserNameByEmail(email);
+  }
+
+
 }

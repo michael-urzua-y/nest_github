@@ -21,12 +21,14 @@ import { CountryAdapter } from './infrastructure/adapters/country.adapter';
 
 import { DatabaseModule } from 'src/database/app.module';
 import { ProductsModule } from '../products/products.module';
+import { MailModule } from 'src/shared/mail/mail.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Commerce, ClientOrmEntity]),
     DatabaseModule,
     ProductsModule,
+    MailModule, 
   ],
   controllers: [CommerceController, ClientController],
   providers: [

@@ -4,6 +4,7 @@ import { Client } from '../domain/entities/client';
 import { IClientRepository } from './client.repository.interface';
 import { toDomain, toPersistence } from '../application/mappers/client.mapper';
 import { ClientOrmEntity } from '../domain/entities/client.entity';
+import { UserEntity } from '../domain/entities/user.entity';
 
 @Injectable()
 export class ClientRepository implements IClientRepository {
@@ -32,6 +33,18 @@ export class ClientRepository implements IClientRepository {
     });
     return entity ? toDomain(entity) : null;
   }
+
+
+  
+  async findUserNameByEmail(email: string): Promise<string | null> {
+    const dataSource = await this.tenantService.getDataSource();
+    const repo = dataSource.getRepository(UserEntity);
+
+    const user = await repo.findOne({ where: { email } });
+    return user ? user.name : null;
+  }
+
+
 
   async save(client: Client): Promise<void> {
     const repo = await this.getRepo();

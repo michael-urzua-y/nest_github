@@ -4,8 +4,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { PayoutService } from '../application/payout.service';
 // import { Payout } from '../domain/entities/payout.entity';
-import { UpdatePayoutDto } from '../domain/dto/update-payout.dto';
-import { CreatePayoutDto } from '../domain/dto/create-payout.dto';
+
 
 @Controller('users')
 export class UserController {
